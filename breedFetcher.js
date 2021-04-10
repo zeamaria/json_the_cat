@@ -13,15 +13,23 @@ const request = require('request');
 let breed = process.argv[2];
 let url = "https://api.thecatapi.com/v1/breeds/search?q=" + breed;
 
-request(url, function(err, res, body) {
-  if (err) {
-    console.log("Invalid URL");
-  } else {
-    const data = JSON.parse(body);
-    if (data.length === 0) {
-      console.log("Breed not found.");
+
+
+const fetchBreedDescription = function(breedName, callback) {
+  request(url, function(err, res, body) {
+    if (err) {
+      console.log("Invalid URL");
     } else {
-      console.log(data[0].description);
+      const data = JSON.parse(body);
+      if (data.length === 0) {
+        console.log("Breed not found.");
+      } else {
+        console.log(data[0].description);
+      }
     }
-  }
-});
+  });
+
+};
+
+
+module.exports = { fetchBreedDescription };
